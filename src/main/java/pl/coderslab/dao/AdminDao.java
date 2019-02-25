@@ -18,7 +18,7 @@ public class AdminDao {
     private static final String READ_ADMIN_BY_EMAIL_QUERY = "SELECT * FROM admins WHERE email=?";
     private static final String READ_ALL_ADMIN_QUERY = "SELECT * FROM admins";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name=?, last_name=?, email=?, " +
-            "password=?, superadmin=?, enable=?";
+            "password=?, superadmin=?, enable=? WHERE id=?";
     private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins WHERE id=?";
 
 
@@ -85,6 +85,8 @@ public class AdminDao {
             updateStm.setString(4, admin.getPassword());
             updateStm.setInt(5, admin.getSuperadmin());
             updateStm.setInt(6, admin.getEnable());
+            updateStm.setInt(7, admin.getId());
+            updateStm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,22 +102,22 @@ public class AdminDao {
             if (!deleted) {
                 throw new NotFoundException("Product not found");
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public boolean login(String email, String enteredPassword){
-        try(Connection connection = DbUtil.getConnection();
-            PreparedStatement readStm = connection.prepareStatement(READ_ADMIN_BY_EMAIL_QUERY)){
+    public boolean login(String email, String enteredPassword) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement readStm = connection.prepareStatement(READ_ADMIN_BY_EMAIL_QUERY)) {
             readStm.setString(1, email);
             ResultSet resultSet = readStm.executeQuery();
 
-            String password="";
-            if(resultSet.next()){
+            String password = "";
+            if (resultSet.next()) {
                 password = resultSet.getString("password");
             }
-            if(BCrypt.checkpw(enteredPassword, password)){
+            if (BCrypt.checkpw(enteredPassword, password)) {
                 return true;
             }
         } catch (SQLException e) {

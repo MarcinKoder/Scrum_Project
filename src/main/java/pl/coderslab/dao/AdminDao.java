@@ -96,9 +96,9 @@ public class AdminDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement delStm = connection.prepareStatement(DELETE_ADMIN_QUERY)) {
             delStm.setInt(1, adminId);
-            delStm.executeUpdate();
+            int isDeleted = delStm.executeUpdate();
 
-            boolean deleted = delStm.execute();
+            boolean deleted = isDeleted != 0;
             if (!deleted) {
                 throw new NotFoundException("Product not found");
             }

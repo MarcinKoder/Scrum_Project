@@ -135,15 +135,17 @@ public class RecipeDao {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY);) {
             statement.setInt(1, recipeId);
-            statement.executeUpdate();
+            int isDeleted = statement.executeUpdate();
 
-            boolean deleted = statement.execute();
+            boolean deleted = isDeleted !=0;
             if (!deleted) {
                 throw new NotFoundException("Product not found");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 

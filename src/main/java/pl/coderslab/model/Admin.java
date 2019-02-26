@@ -28,6 +28,10 @@ public class Admin {
       this(0, firstName, lastName, email, password, superadmin, enable);
     }
 
+    public Admin(String firstName, String lastName, String email, String password) {
+        this(firstName, lastName, email, password, 0, 0);
+    }
+
     public Admin() {
     }
 

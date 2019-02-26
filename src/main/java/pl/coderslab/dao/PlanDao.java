@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 import pl.coderslab.utils.DbUtil;
 
@@ -67,19 +68,14 @@ public class PlanDao {
             e.printStackTrace();
         }
     }
-    public void delete(String planName){
+    public boolean delete(String planName){
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAN);
             preparedStatement.setString(1,planName);
-            preparedStatement.executeUpdate();
-
-            boolean deleted = preparedStatement.execute();
-            if(!deleted){
-                deleted = false;
-                return;
-            }
+            return preparedStatement.executeUpdate()>0;
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
     }
 }

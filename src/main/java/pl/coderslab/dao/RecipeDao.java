@@ -137,7 +137,7 @@ public class RecipeDao {
             statement.setInt(1, recipeId);
             int isDeleted = statement.executeUpdate();
 
-            boolean deleted = isDeleted !=0;
+            boolean deleted = isDeleted != 0;
             if (!deleted) {
                 throw new NotFoundException("Product not found");
             }

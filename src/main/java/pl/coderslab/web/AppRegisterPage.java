@@ -26,12 +26,6 @@ public class AppRegisterPage extends HttpServlet {
             return;
         }
 
-        if (!password.equals(passwordRepeat)) {
-            response.getWriter().append("Hasło nie zostało prawidłowo powtórzone");
-            getServletContext().getRequestDispatcher("/registerRepeat.jsp").forward(request, response);
-            return;
-        }
-
         Admin admin = new Admin(firstName, lastName, email, password);
         AdminDao adminDao = new AdminDao();
         adminDao.create(admin);

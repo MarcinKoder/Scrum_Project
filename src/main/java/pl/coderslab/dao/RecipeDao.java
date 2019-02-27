@@ -184,19 +184,10 @@ public class RecipeDao {
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
         ) {
             statement.setInt(1, adminId);
+            int counter = 0;
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Recipe recipe = new Recipe();
-                    recipe.setId(resultSet.getInt("id"));
-                    recipe.setName(resultSet.getString("name"));
-                    recipe.setIngredients(resultSet.getString("ingredients"));
-                    recipe.setDescription(resultSet.getString("description"));
-                    recipe.setCreated(resultSet.getString("created"));
-                    recipe.setUpdated(resultSet.getString("updated"));
-                    recipe.setPreparation_time(resultSet.getInt("preparation_time"));
-                    recipe.setPreparation(resultSet.getString("preparation"));
-                    recipe.setAdmin_id(resultSet.getInt("admin_id"));
-                    recipeList.add(recipe);
+                    counter++;
                 }
             }
         } catch (Exception e) {

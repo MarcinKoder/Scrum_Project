@@ -77,10 +77,10 @@ public class PlanDao {
         return updated;
     }
 
-    public boolean delete(String planName){
+    public boolean delete(int planId){
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAN);
-            preparedStatement.setString(1,planName);
+            preparedStatement.setInt(1,planId);
             return preparedStatement.executeUpdate()>0;
         }catch (SQLException e){
             e.printStackTrace();

@@ -9,45 +9,7 @@
 
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
-        <ul class="nav flex-column long-bg">
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard.html">
-                    <span>Pulpit</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-recipes.html">
-                    <span>Przepisy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-schedules.html">
-                    <span>Plany</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/app-edit-user-data.html">
-                    <span>Edytuj dane</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="/app-edit-password.html">
-                    <span>Zmień hasło</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/super-admin-users.html">
-                    <span>Użytkownicy</span>
-                    <i class="fas fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-
+        <%@include file="leftPanel.jsp" %>
 
         <div class="m-4 p-3 width-medium">
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
@@ -65,18 +27,20 @@
                     </tr>
                     </thead>
                     <tbody class="text-color-lighter">
+                    <c:forEach items="${recipeList}" var="recipe">
                     <tr class="d-flex">
-                        <th scope="row" class="col-1">1</th>
+                        <th scope="row" class="col-1">${recipe.id}</th>
                         <td class="col-2">
-                            Zapiekanka z ziemniakami i brukselką
+                            ${recipe.name}
                         </td>
-                        <td clas="col-7">Mamusina najlepsza zapiekanka pod słońcem. Można ją podać jako główne danie albo jako kolację. W zapiekance możesz użyć również kiełbasy paprykowej sprawi ona, że zapiekanka będzie ostrzejsza w smaku. Zgodnie z zalecanimi Makłowicza, podawać z dobrze dobranym winkiem ;)</td>
+                        <td class="col-7">${recipe.description}</td>
                         <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                             <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             <a href="/app-recipe-details.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                             <a href="/app-edit-recipe.html" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                         </td>
                     </tr>
+                    </c:forEach>
                     <tr class="d-flex">
                         <th scope="row" class="col-1">2</th>
                         <td class="col-2">

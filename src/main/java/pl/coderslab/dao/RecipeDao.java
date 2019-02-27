@@ -20,6 +20,7 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * from recipe";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE	id = ?";
+    private static final String FIND_ALL_RECIPES_BY_ADMIN_QUERY = "SELECT * from recipe where admin_id = ?";
 
     /**
      * Get recipe by id
@@ -131,21 +132,20 @@ public class RecipeDao {
      *
      * @param recipeId
      */
-    public void delete(Integer recipeId) {
+    public boolean delete(Integer recipeId) {
+        boolean deleted = false;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_RECIPE_QUERY);) {
             statement.setInt(1, recipeId);
             int isDeleted = statement.executeUpdate();
 
-            boolean deleted = isDeleted != 0;
-            if (!deleted) {
-                throw new NotFoundException("Product not found");
-            }
+            deleted = isDeleted != 0;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        return deleted;
     }
 
 
@@ -154,7 +154,8 @@ public class RecipeDao {
      *
      * @param recipe
      */
-    public void update(Recipe recipe) {
+    public boolean update(Recipe recipe) {
+        boolean updated = false;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_RECIPE_QUERY);) {
             statement.setInt(8, recipe.getId());
@@ -166,11 +167,32 @@ public class RecipeDao {
             statement.setString(6, recipe.getPreparation());
             statement.setString(7, String.valueOf(recipe.getAdmin_id()));
 
-            statement.executeUpdate();
+            int isUpdated = statement.executeUpdate();
+
+            updated = isUpdated != 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return updated;
 
+    }
+
+    public Integer count(Integer adminId) {
+
+        int counter = 0;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
+        ) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    counter++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return counter;
     }
 
 }

@@ -1,7 +1,6 @@
 package pl.coderslab.dao;
 
 import org.mindrot.jbcrypt.BCrypt;
-import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
 
@@ -68,6 +67,7 @@ public class AdminDao {
                 adminToAdd.setEmail(resultSet.getString("email"));
                 adminToAdd.setSuperadmin(resultSet.getInt("superadmin"));
                 adminToAdd.setEnable(resultSet.getInt("enable"));
+                admins.add(adminToAdd);
 
             }
         } catch (SQLException e) {
@@ -76,7 +76,8 @@ public class AdminDao {
         return admins;
     }
 
-    public void update(Admin admin) {
+    public boolean update(Admin admin) {
+        boolean updated = false;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement updateStm = connection.prepareStatement(UPDATE_ADMIN_QUERY)) {
             updateStm.setString(1, admin.getFirstName());
@@ -86,25 +87,25 @@ public class AdminDao {
             updateStm.setInt(5, admin.getSuperadmin());
             updateStm.setInt(6, admin.getEnable());
             updateStm.setInt(7, admin.getId());
-            updateStm.executeUpdate();
+            int isUpdated = updateStm.executeUpdate();
+            updated = isUpdated != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return updated;
     }
 
-    public void delete(int adminId) {
+    public boolean delete(int adminId) {
+        boolean deleted = false;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement delStm = connection.prepareStatement(DELETE_ADMIN_QUERY)) {
             delStm.setInt(1, adminId);
             int isDeleted = delStm.executeUpdate();
-
-            boolean deleted = isDeleted != 0;
-            if (!deleted) {
-                throw new NotFoundException("Product not found");
-            }
+            deleted = isDeleted != 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return deleted;
     }
 
     public boolean login(String email, String enteredPassword) {

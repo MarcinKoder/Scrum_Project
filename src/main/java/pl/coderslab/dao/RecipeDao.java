@@ -20,7 +20,8 @@ public class RecipeDao {
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * from recipe";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?";
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE	id = ?";
-    private static final String FIND_ALL_RECIPES_BY_ADMIN_QUERY = "SELECT * from recipe where admin_id = ?";
+//    private static final String FIND_ALL_RECIPES_BY_ADMIN_QUERY = "SELECT * from recipe where admin_id = ?";
+    private static final String SELECT_COUNT_RECIPE_QUERY = "select count(*) as recipeCount FROM recipe where admin_id = ?";
 
     /**
      * Get recipe by id
@@ -177,32 +178,37 @@ public class RecipeDao {
 
     }
 
-    public Integer count(Integer adminId) {
-        List<Recipe> recipeList = new ArrayList<>();
-
+    public static int recipeCount(int id) {
+        int count = 0;
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
-        ) {
-            statement.setInt(1, adminId);
+             PreparedStatement statement = connection.prepareStatement(SELECT_COUNT_RECIPE_QUERY)) {
+            statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Recipe recipe = new Recipe();
-                    recipe.setId(resultSet.getInt("id"));
-                    recipe.setName(resultSet.getString("name"));
-                    recipe.setIngredients(resultSet.getString("ingredients"));
-                    recipe.setDescription(resultSet.getString("description"));
-                    recipe.setCreated(resultSet.getString("created"));
-                    recipe.setUpdated(resultSet.getString("updated"));
-                    recipe.setPreparation_time(resultSet.getInt("preparation_time"));
-                    recipe.setPreparation(resultSet.getString("preparation"));
-                    recipe.setAdmin_id(resultSet.getInt("admin_id"));
-                    recipeList.add(recipe);
-                }
+                resultSet.next();
+                count = resultSet.getInt("recipeCount");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return recipeList.size();
+        return count;
     }
-
 }
+//    public Integer count(Integer adminId) {
+//
+//        int counter = 0;
+//        try (Connection connection = DbUtil.getConnection();
+//             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
+//        ) {
+//            statement.setInt(1, adminId);
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                while (resultSet.next()) {
+//                    counter++;
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return counter;
+//    }
+
+

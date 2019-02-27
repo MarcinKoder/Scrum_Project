@@ -67,6 +67,7 @@ public class AdminDao {
                 adminToAdd.setEmail(resultSet.getString("email"));
                 adminToAdd.setSuperadmin(resultSet.getInt("superadmin"));
                 adminToAdd.setEnable(resultSet.getInt("enable"));
+                admins.add(adminToAdd);
 
             }
         } catch (SQLException e) {

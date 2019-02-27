@@ -86,8 +86,8 @@ public class AdminDao {
             updateStm.setInt(5, admin.getSuperadmin());
             updateStm.setInt(6, admin.getEnable());
             updateStm.setInt(7, admin.getId());
-            int isupdate = updateStm.executeUpdate();
-            updated = isupdate != 0;
+            int isUpdated = updateStm.executeUpdate();
+            updated = isUpdated != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

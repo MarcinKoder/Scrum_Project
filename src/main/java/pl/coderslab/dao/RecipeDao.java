@@ -178,13 +178,12 @@ public class RecipeDao {
     }
 
     public Integer count(Integer adminId) {
-        List<Recipe> recipeList = new ArrayList<>();
 
+        int counter = 0;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
         ) {
             statement.setInt(1, adminId);
-            int counter = 0;
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     counter++;
@@ -193,7 +192,7 @@ public class RecipeDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return recipeList.size();
+        return counter;
     }
 
 }

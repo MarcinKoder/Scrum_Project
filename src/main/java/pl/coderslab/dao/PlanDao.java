@@ -8,19 +8,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlanDao {
-    private static final String CREATE_PLAN = "INSERT INTO plan(name, description, created) VALUES(?,?,?)";
-    private static final String READ_PLAN = "SELECT * FROM plan WHERE name=?";
-    private static final String UPDATE_PLAN = "UPDATE plan SET name=?, description=? created=? WHERE name=?";
-    private static final String DELETE_PLAN = "DELETE FROM plan WHERE name=?";
+    private static final String CREATE_PLAN = "INSERT INTO plan(name, description, created, admin_id) VALUES(?,?,NOW(),?)";
+    private static final String READ_PLAN = "SELECT * FROM plan WHERE id=?";
+    private static final String UPDATE_PLAN = "UPDATE plan SET name=?, description=? created=? WHERE id=?";
+    private static final String DELETE_PLAN = "DELETE FROM plan WHERE id=?";
+    private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
+    private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
 
     public Plan create(Plan plan){
         try (Connection connection = DbUtil.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_PLAN, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, plan.getName());
             preparedStatement.setString(2, plan.getDescription());
-            preparedStatement.setString(3, plan.getCreated());
+//            preparedStatement.setString(3, plan.getCreated());
+            preparedStatement.setInt(3, plan.getAdminId());
             int result = preparedStatement.executeUpdate();
 
             if(result != 1){
@@ -57,25 +62,67 @@ public class PlanDao {
         }
         return plan;
     }
-    public void  update(Plan plan){
+    public boolean update(Plan plan){
+        boolean updated = false;
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PLAN);
-            preparedStatement.setString(1,plan.getName());
+            preparedStatement.setInt(3, plan.getId());
+            preparedStatement.setString(1, plan.getName());
             preparedStatement.setString(2, plan.getDescription());
-            preparedStatement.setString(3, plan.getCreated());
-            preparedStatement.executeUpdate();
+            int isUpdated = preparedStatement.executeUpdate();
+            updated = isUpdated != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return updated;
     }
-    public boolean delete(String planName){
+
+    public boolean delete(int planId){
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAN);
-            preparedStatement.setString(1,planName);
+            preparedStatement.setInt(1,planId);
             return preparedStatement.executeUpdate()>0;
         }catch (SQLException e){
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static List<Plan> findAll() {
+        List<Plan> planList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_QUERY);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Plan planToAdd = new Plan();
+                planToAdd.setId(resultSet.getInt("id"));
+                planToAdd.setName(resultSet.getString("name"));
+                planToAdd.setDescription(resultSet.getString("description"));
+                planToAdd.setCreated(resultSet.getString("created"));
+                planToAdd.setAdminId(resultSet.getInt("adminId"));
+                planList.add(planToAdd);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return planList;
+    }
+
+    public static int howManyPlans(int id) {
+
+        int count = 0;
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement countStatement = connection.prepareStatement(HOW_MANY_PLANS)) {
+            countStatement.setInt(1, id);
+            try (ResultSet resultSet = countStatement.executeQuery()) {
+                resultSet.next();
+                count = resultSet.getInt("plans");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 }

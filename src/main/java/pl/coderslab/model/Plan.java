@@ -7,12 +7,16 @@ public class Plan {
     private String created; // dataTime
     private int adminId;
 
-    public Plan(String name, String description, String created) {
+
+    public Plan() {
+    }
+
+    public Plan(int id, String name, String description, String created, int adminId) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.created = created;
-    }
-    public Plan(){
+        this.adminId = adminId;
     }
 
     public int getId() {

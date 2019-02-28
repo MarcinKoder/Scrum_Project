@@ -27,17 +27,20 @@ public class AppRegisterPage extends HttpServlet {
             whatError = 1; //incorrect/incomplete data
             request.setAttribute("whatError", whatError);
             getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
+        } else {
+
+            Admin admin = new Admin(firstName, lastName, email, password);
+            AdminDao adminDao = new AdminDao();
+            adminDao.create(admin);
+
+            if (admin.getId() == 0) {
+                whatError = 2; //email already use by some admin
+                request.setAttribute("whatError", whatError);
+                getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
+            }
         }
 
-        Admin admin = new Admin(firstName, lastName, email, password);
-        AdminDao adminDao = new AdminDao();
-        adminDao.create(admin);
 
-        if (admin.getId() == 0) {
-            whatError = 2; //email already use by some admin
-            request.setAttribute("whatError", whatError);
-            getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
-        }
 
         response.sendRedirect("/login");
     }

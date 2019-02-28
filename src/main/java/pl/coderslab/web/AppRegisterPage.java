@@ -27,7 +27,6 @@ public class AppRegisterPage extends HttpServlet {
             whatError = 1; //incorrect/incomplete data
             request.setAttribute("whatError", whatError);
             getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
-            return;
         }
 
         Admin admin = new Admin(firstName, lastName, email, password);

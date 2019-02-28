@@ -11,6 +11,14 @@
             <div class="container w-25">
                 <form class="padding-small text-center" method="post" action="/register">
                     <h1 class="text-color-darker">Rejestracja</h1>
+                    <c:choose>
+                        <c:when test="${whatError == 1}">
+                            <p>Nieprawidłowe lub niekompletne dane</p>
+                        </c:when>
+                        <c:when test="${whatError == 2}">
+                            <p>email jest juz zarejestrowany</p>
+                        </c:when>
+                    </c:choose>
                     <div class="form-group">
                         <input type="text" class="form-control" id="name" name="firstName" placeholder="podaj imię">
                     </div>

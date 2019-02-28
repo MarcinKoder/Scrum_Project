@@ -19,9 +19,10 @@ public class Login extends HttpServlet {
         AdminDao adminDao = new AdminDao();
         if (adminDao.login(email, password)) {
             request.getSession().setAttribute("id", email);
+            request.getSession().setAttribute("adminID", adminDao.read(email).getId());
 //            isLogin = true;
 //            request.setAttribute("login", isLogin);
-            getServletContext().getRequestDispatcher("/app/dashboard").forward(request, response);
+            response.sendRedirect( "/app/dashboard" );
 
         } else {
             isLogin = false;

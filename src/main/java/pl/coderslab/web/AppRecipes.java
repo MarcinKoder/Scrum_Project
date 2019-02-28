@@ -15,9 +15,9 @@ import java.util.List;
 public class AppRecipes extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RecipeDao recipeDao = new RecipeDao();
-        List<Recipe> recipeList = (List<Recipe>) recipeDao.findAll();
+       // List<Recipe> recipeList = (List<Recipe>) recipeDao.findAllByAdmin();
 
-        request.setAttribute("recipeList", recipeList);
+      //  request.setAttribute("recipeList", recipeList);
 
         getServletContext().getRequestDispatcher("/app-recipes.jsp").forward(request, response);
     }

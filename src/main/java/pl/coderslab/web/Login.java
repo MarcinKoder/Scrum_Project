@@ -13,20 +13,22 @@ import java.io.IOException;
 @WebServlet("/login")
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         boolean isLogin;
         AdminDao adminDao = new AdminDao();
         if (adminDao.login(email, password)) {
-            isLogin = true;
-            request.setAttribute("login", isLogin);
+            request.getSession().setAttribute("id", email);
+//            isLogin = true;
+//            request.setAttribute("login", isLogin);
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 
         } else {
             isLogin = false;
             request.setAttribute("login", isLogin);
             getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+//            doGet(request, response);
         }
     }
 

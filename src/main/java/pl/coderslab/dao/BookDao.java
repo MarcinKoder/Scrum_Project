@@ -136,7 +136,7 @@ public class BookDao {
      */
     public void update(Book book) {
         try (Connection connection = DbUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_QUERY);  ) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_BOOK_QUERY);) {
             statement.setInt(4, book.getId());
             statement.setString(1, book.getTitle());
             statement.setString(2, book.getAuthor());

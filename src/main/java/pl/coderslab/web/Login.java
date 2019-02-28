@@ -13,7 +13,6 @@ import java.io.IOException;
 @WebServlet("/login")
 public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         boolean isLogin;
@@ -22,7 +21,7 @@ public class Login extends HttpServlet {
             request.getSession().setAttribute("id", email);
 //            isLogin = true;
 //            request.setAttribute("login", isLogin);
-            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/app/dashboard").forward(request, response);
 
         } else {
             isLogin = false;

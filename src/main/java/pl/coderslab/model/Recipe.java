@@ -99,6 +99,16 @@ public class Recipe {
         this.admin_id = admin_id;
     }
 
+    public Recipe(String name, String ingredients, String description, int preparation_time, String preparation,
+                  int admin_id) {
+        this.name = name;
+        this.ingredients = ingredients;
+        this.description = description;
+        this.preparation_time = preparation_time;
+        this.preparation = preparation;
+        this.admin_id = admin_id;
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +

@@ -18,6 +18,7 @@ public class PlanDao {
     private static final String DELETE_PLAN = "DELETE FROM plan WHERE id=?";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
     private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
+    private static final String LAST_PLAN = "SELECT name FROM plan WHERE admin_id = ? ORDER BY created desc LIMIT 1";
 
     public Plan create(Plan plan){
         try (Connection connection = DbUtil.getConnection()){
@@ -124,5 +125,20 @@ public class PlanDao {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public static String lastPlan(int id) {
+        String lastPlan = "";
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LAST_PLAN)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                lastPlan = resultSet.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lastPlan;
     }
 }

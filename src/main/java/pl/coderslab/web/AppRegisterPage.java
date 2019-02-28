@@ -39,7 +39,7 @@ public class AppRegisterPage extends HttpServlet {
             getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
         }
 
-        getServletContext().getRequestDispatcher("/login").forward(request, response);
+        response.sendRedirect("/login");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,

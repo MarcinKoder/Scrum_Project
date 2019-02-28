@@ -129,4 +129,28 @@ public class AdminDao {
         }
         return false;
     }
+
+    public Admin read(String email) {
+        Admin admin = new Admin();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(READ_ADMIN_BY_EMAIL_QUERY)
+        ) {
+            statement.setString(1, email);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    admin.setId(resultSet.getInt("id"));
+                    admin.setFirstName(resultSet.getString("first_name"));
+                    admin.setLastName(resultSet.getString("last_name"));
+                    admin.setEmail(resultSet.getString("email"));
+                    admin.setPassword(resultSet.getString("password"));
+                    admin.setSuperadmin(resultSet.getInt("superadmin"));
+                    admin.setEnable(resultSet.getInt("enable"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return admin;
+
+    }
 }

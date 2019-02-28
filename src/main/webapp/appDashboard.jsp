@@ -17,18 +17,8 @@
           rel="stylesheet">
 </head>
 <body>
-<header class="page-header">
-    <nav class="navbar navbar-expand-lg justify-content-between">
-        <a href="/HomeServlet" class="navbar-brand main-logo main-logo-smaller">
-            Zaplanuj <span>Jedzonko</span>
-        </a>
-        <div class="d-flex justify-content-around">
-            <h4 class="text-light mr-3"><c:out value="${sessionScope.firstName}"/></h4>
-            <%--<div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>--%>
-            <a class="circle-div text-center" href="/logout" title="Wyloguj się"><i class="fas fa-user icon-user"></i></a>
-        </div>
-    </nav>
-</header>
+<%@include file="headerAfterLogin.jsp" %>
+
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">
       <jsp:include page="leftPanel.jsp"/>
@@ -36,19 +26,19 @@
             <div class="dashboard-header m-4">
                 <div class="dashboard-menu">
                     <div class="menu-item border-dashed">
-                        <a href="">
+                        <a href="/app/recipe/add">
                             <i class="far fa-plus-square icon-plus-square"></i>
                             <span class="title">dodaj przepis</span>
                         </a>
                     </div>
                     <div class="menu-item border-dashed">
-                        <a href="">
+                        <a href="/app/plan/add">
                             <i class="far fa-plus-square icon-plus-square"></i>
                             <span class="title">dodaj plan</span>
                         </a>
                     </div>
                     <div class="menu-item border-dashed">
-                        <a href="">
+                        <a href="/app/recipe/plan/add">
                             <i class="far fa-plus-square icon-plus-square"></i>
                             <span class="title">dodaj przepis do planu</span>
                         </a>

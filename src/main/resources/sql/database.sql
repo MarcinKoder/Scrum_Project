@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `scrumlab`.`admins` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Klucz główny tabeli.',
   `first_name` VARCHAR(245) NULL COMMENT 'Imię',
   `last_name` VARCHAR(245) NULL COMMENT 'Nazwisko',
-  `email` VARCHAR(245) NULL COMMENT 'Adres email',
+  `email` VARCHAR(245) NULL UNIQUE COMMENT 'Adres email',
   `password` VARCHAR(60) NULL COMMENT 'Hasło',
   `superadmin` TINYINT(1) NULL COMMENT 'Czy użytkownik jest Super Administratorem.',
   `enable` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Czy jest aktywny i może się logować.',

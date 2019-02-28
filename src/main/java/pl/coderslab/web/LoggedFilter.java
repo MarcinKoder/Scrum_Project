@@ -16,7 +16,7 @@ public class LoggedFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         String loginURI = request.getContextPath() + "/login";
 
         boolean loggedIn = session != null && session.getAttribute( "id" ) != null;

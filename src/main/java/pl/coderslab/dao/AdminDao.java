@@ -114,9 +114,12 @@ public class AdminDao {
             readStm.setString(1, email);
             ResultSet resultSet = readStm.executeQuery();
 
-            String password = "";
+            String password = null;
             if (resultSet.next()) {
                 password = resultSet.getString("password");
+            }
+            if (password == null) {
+                return false;
             }
             if (BCrypt.checkpw(enteredPassword, password)) {
                 return true;

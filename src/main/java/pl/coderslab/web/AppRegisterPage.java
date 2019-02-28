@@ -15,7 +15,6 @@ import java.io.IOException;
 public class AppRegisterPage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        response.setContentType("text/html; charset=utf-8");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");

@@ -16,7 +16,7 @@
 <body>
 <header class="page-header">
     <nav class="navbar navbar-expand-lg justify-content-between">
-        <a href="/HomeServlet" class="navbar-brand main-logo main-logo-smaller">
+        <a href="/" class="navbar-brand main-logo main-logo-smaller">
             Zaplanuj <span>Jedzonko</span>
         </a>
         <div class="d-flex justify-content-around">

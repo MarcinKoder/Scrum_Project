@@ -3,7 +3,7 @@
 <html lang="en">
 
 <body>
-<%@include file="header.jsp" %>
+<%@include file="headerAfterLogin.jsp" %>
 
 
 <section class="dashboard-section">
@@ -14,7 +14,7 @@
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <div class="row border-bottom border-3 p-1 m-1">
                     <div class="col noPadding"><h3 class="color-header text-uppercase">Lista Przepisów</h3></div>
-                    <div class="col noPadding d-flex justify-content-end mb-2"><a href="/app-add-recipe.html"
+                    <div class="col noPadding d-flex justify-content-end mb-2"><a href="/app/recipe/add"
                                                                                   class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj
                         przepis</a></div>
                 </div>

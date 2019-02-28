@@ -15,11 +15,11 @@ public class RecipeDao {
 
     // ZAPYTANIA SQL
 
-    private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name,ingredients, description, created, updated, preparation_time, preparation, admin_id) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String CREATE_RECIPE_QUERY = "INSERT INTO recipe(name,ingredients, description, created, updated, preparation_time, preparation, admin_id) VALUES (?,?,?,NOW(),NOW(),?,?,?)";
     private static final String DELETE_RECIPE_QUERY = "DELETE FROM recipe where id = ?";
     private static final String FIND_ALL_RECIPE_QUERY = "SELECT * from recipe";
     private static final String READ_RECIPE_QUERY = "SELECT * from recipe where id = ?";
-    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, updated = ?, preparation_time = ?, preparation = ?, admin_id = ? WHERE	id = ?";
+    private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, updated = NOW(), preparation_time = ?, preparation = ?, admin_id = ? WHERE	id = ?";
 //    private static final String FIND_ALL_RECIPES_BY_ADMIN_QUERY = "SELECT * from recipe where admin_id = ?";
     private static final String SELECT_COUNT_RECIPE_QUERY = "select count(*) as recipeCount FROM recipe where admin_id = ?";
 
@@ -100,11 +100,11 @@ public class RecipeDao {
             insertStm.setString(1, recipe.getName());
             insertStm.setString(2, recipe.getIngredients());
             insertStm.setString(3, recipe.getDescription());
-            insertStm.setString(4, recipe.getCreated());
-            insertStm.setString(5, recipe.getUpdated());
-            insertStm.setString(6, String.valueOf(recipe.getPreparation_time()));
-            insertStm.setString(7, recipe.getPreparation());
-            insertStm.setString(8, String.valueOf(recipe.getAdmin_id()));
+//            insertStm.setString(4, recipe.getCreated());
+//            insertStm.setString(5, recipe.getUpdated());
+            insertStm.setString(4, String.valueOf(recipe.getPreparation_time()));
+            insertStm.setString(5, recipe.getPreparation());
+            insertStm.setString(6, String.valueOf(recipe.getAdmin_id()));
 
             int result = insertStm.executeUpdate();
 
@@ -163,10 +163,10 @@ public class RecipeDao {
             statement.setString(1, recipe.getName());
             statement.setString(2, recipe.getIngredients());
             statement.setString(3, recipe.getDescription());
-            statement.setString(4, recipe.getUpdated());
-            statement.setString(5, String.valueOf(recipe.getPreparation_time()));
-            statement.setString(6, recipe.getPreparation());
-            statement.setString(7, String.valueOf(recipe.getAdmin_id()));
+//            statement.setString(4, recipe.getUpdated());
+            statement.setString(4, String.valueOf(recipe.getPreparation_time()));
+            statement.setString(5, recipe.getPreparation());
+            statement.setString(6, String.valueOf(recipe.getAdmin_id()));
 
             int isUpdated = statement.executeUpdate();
 
@@ -193,22 +193,3 @@ public class RecipeDao {
         return count;
     }
 }
-//    public Integer count(Integer adminId) {
-//
-//        int counter = 0;
-//        try (Connection connection = DbUtil.getConnection();
-//             PreparedStatement statement = connection.prepareStatement(FIND_ALL_RECIPES_BY_ADMIN_QUERY);
-//        ) {
-//            statement.setInt(1, adminId);
-//            try (ResultSet resultSet = statement.executeQuery()) {
-//                while (resultSet.next()) {
-//                    counter++;
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return counter;
-//    }
-
-

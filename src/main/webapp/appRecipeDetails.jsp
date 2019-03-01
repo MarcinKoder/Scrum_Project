@@ -5,7 +5,7 @@
 
 
 <body>
-<%@include file="header.jsp" %>
+<%@include file="headerAfterLogin.jsp" %>
 
 <section class="dashboard-section">
     <div class="row dashboard-nowrap">

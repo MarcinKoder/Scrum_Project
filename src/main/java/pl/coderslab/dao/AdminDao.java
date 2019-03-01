@@ -15,11 +15,11 @@ public class AdminDao {
     private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins (first_name, last_name, email, password, " +
             "superadmin, enable) VALUES (?,?,?,?,?,?)";
     private static final String READ_ADMIN_BY_EMAIL_QUERY = "SELECT * FROM admins WHERE email=?";
+    private static final String READ_ADMIN_BY_ID_QUERY = "SELECT * FROM admins WHERE id=?";
     private static final String READ_ALL_ADMIN_QUERY = "SELECT * FROM admins";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name=?, last_name=?, email=?, " +
             "password=?, superadmin=?, enable=? WHERE id=?";
     private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins WHERE id=?";
-
 
     public Admin create(Admin admin) {
         try (Connection connection = DbUtil.getConnection();
@@ -153,4 +153,30 @@ public class AdminDao {
         return admin;
 
     }
+
+    public Admin readById(int adminId) {
+
+        try (Connection connection = DbUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(READ_ADMIN_BY_ID_QUERY)) {
+            statement.setInt(1, adminId);
+            Admin admin = new Admin();
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    admin.setId(resultSet.getInt("id"));
+                    admin.setFirstName(resultSet.getString("first_name"));
+                    admin.setLastName(resultSet.getString("last_name"));
+                    admin.setEmail(resultSet.getString("email"));
+                    admin.setPassword(resultSet.getString("password"));
+                    admin.setSuperadmin(resultSet.getInt("superadmin"));
+                    admin.setEnable(resultSet.getInt("enable"));
+                    return admin;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+
 }

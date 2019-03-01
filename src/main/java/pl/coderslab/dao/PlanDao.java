@@ -19,8 +19,10 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
     private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
     private static final String LAST_PLAN = "SELECT name FROM plan WHERE admin_id = ? ORDER BY created desc LIMIT 1";
+    private static final String FIND_ALL_FROM_USER_QUERY = "SELECT * from plan where admin_id = ?";
+    private static final String INSERT_RECIPE_INTO_PLAN_QUERY = "INSERT INTO recipe_plan (recipe_id,meal_name,`order`,day_name_id,plan_id) VALUES (?,?,?,?,?)";
 
-    public Plan create(Plan plan){
+    public static Plan create(Plan plan){
         try (Connection connection = DbUtil.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_PLAN, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, plan.getName());
@@ -140,5 +142,45 @@ public class PlanDao {
             e.printStackTrace();
         }
         return lastPlan;
+    }
+
+    public static void newRecipePlan(int recipeId, String mealName, int order, int dayNameId, int planId) {
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_RECIPE_INTO_PLAN_QUERY)) {
+            statement.setInt(1, recipeId);
+            statement.setString(2, mealName);
+            statement.setInt(3, order);
+            statement.setInt(4, dayNameId);
+            statement.setInt(5, planId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Plan> findAllFromUser(int id) {
+        List<Plan> planList = new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_FROM_USER_QUERY);) {
+            statement.setInt(1, id);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next())
+                    if (id == resultSet.getInt("admin_id")) {
+                        Plan planToAdd = new Plan();
+                        planToAdd.setId(resultSet.getInt("id"));
+                        planToAdd.setName(resultSet.getString("name"));
+                        planToAdd.setDescription(resultSet.getString("description"));
+                        planToAdd.setCreated(resultSet.getString("created"));
+                        planToAdd.setAdminId(resultSet.getInt("admin_id"));
+                        planList.add(planToAdd);
+                    }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return planList;
+
     }
 }

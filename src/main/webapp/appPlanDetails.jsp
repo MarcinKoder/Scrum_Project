@@ -43,8 +43,9 @@
                             </div>
                         </div>
                     </div>
-
-                        <c:if test="${recipePlan.getDayNameId} == 1">
+                    <c:forEach items="${recipePlan}" var="recipe">
+                        ${recipe.dayNameId}
+                        <c:if test="${recipe.dayNameId} == 1">
                             <table class="table">
                                 <thead>
                                 <tr class="d-flex">
@@ -55,19 +56,22 @@
                                 </tr>
                                 </thead>
                                 <tbody class="text-color-lighter">
-                                <c:forEach items="${recipePlan.getDayNameId==1}" var="recipe">
-                                    <tr class="d-flex">
-                                        <td class="col-2">${recipe.getMealName}</td>
-                                        <td class="col-7">${recipes.get(recipe.getId)}</td>
-                                        <td class="col-1 center">
-                                            <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                                        </td>
-                                        <td class="col-2 center">
-                                            <a href="app-details-schedules.html"
-                                               class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                        </td>
-                                    </tr>
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayNameId} == 1">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipes.get(recipe1.id)}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="app-details-schedules.html"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
                                 </c:forEach>
+
                                 </tbody>
                             </table>
                         </c:if>

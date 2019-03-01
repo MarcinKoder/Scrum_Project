@@ -159,14 +159,14 @@ public class RecipeDao {
         boolean updated = false;
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_RECIPE_QUERY);) {
-            statement.setInt(8, recipe.getId());
+            statement.setInt(7, recipe.getId());
             statement.setString(1, recipe.getName());
             statement.setString(2, recipe.getIngredients());
             statement.setString(3, recipe.getDescription());
 //            statement.setString(4, recipe.getUpdated());
-            statement.setString(4, String.valueOf(recipe.getPreparation_time()));
+            statement.setInt(4, recipe.getPreparation_time());
             statement.setString(5, recipe.getPreparation());
-            statement.setString(6, String.valueOf(recipe.getAdmin_id()));
+            statement.setInt(6, recipe.getAdmin_id());
 
             int isUpdated = statement.executeUpdate();
 

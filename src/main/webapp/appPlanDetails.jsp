@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html lang="en">
 
@@ -18,7 +20,7 @@
                         <h3 class="color-header text-uppercase">SZCZEGÓŁY PLANU</h3>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
-                        <a href="#" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <a href="list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                     </div>
                 </div>
 
@@ -43,9 +45,9 @@
                             </div>
                         </div>
                     </div>
+                    <c:set var="day" value="poniedziałek"/>
                     <c:forEach items="${recipePlan}" var="recipe">
-                        ${recipe.dayNameId}
-                        <c:if test="${recipe.dayNameId} == 1">
+                        <c:if test="${day=='poniedziałek' && recipe.dayName=='poniedziałek'}">
                             <table class="table">
                                 <thead>
                                 <tr class="d-flex">
@@ -57,15 +59,15 @@
                                 </thead>
                                 <tbody class="text-color-lighter">
                                 <c:forEach items="${recipePlan}" var="recipe1">
-                                    <c:if test="${recipe1.dayNameId} == 1">
+                                    <c:if test="${recipe1.dayName=='poniedziałek'}">
                                         <tr class="d-flex">
                                             <td class="col-2">${recipe1.mealName}</td>
-                                            <td class="col-7">${recipes.get(recipe1.id)}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
                                             <td class="col-1 center">
                                                 <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                                             </td>
                                             <td class="col-2 center">
-                                                <a href="app/plan/details"
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
                                                    class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                                             </td>
                                         </tr>
@@ -74,51 +76,204 @@
 
                                 </tbody>
                             </table>
+                            <c:set var="day" value="wtorek" />
                         </c:if>
+
+                        <c:if test="${day=='wtorek' && recipe.dayName=='wtorek'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Wtorek</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='wtorek'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="środa" />
+                        </c:if>
+
+                        <c:if test="${day=='środa' && recipe.dayName=='środa'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Środa</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='środa'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="czwartek" />
+                        </c:if>
+
+                        <c:if test="${day=='czwartek' && recipe.dayName=='czwartek'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Czwartek</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='czwartek'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="piątek" />
+                        </c:if>
+
+                        <c:if test="${day=='piątek' && recipe.dayName=='piątek'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Piątek</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='piątek'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="sobota" />
+                        </c:if>
+
+                        <c:if test="${day=='sobota' && recipe.dayName=='sobota'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Sobota</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='sobota'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="niedziela" />
+                        </c:if>
+
+                        <c:if test="${day=='niedziela' && recipe.dayName=='niedziela'}">
+                            <table class="table">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">Niedziela</th>
+                                    <th class="col-7"></th>
+                                    <th class="col-1"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-color-lighter">
+                                <c:forEach items="${recipePlan}" var="recipe1">
+                                    <c:if test="${recipe1.dayName=='niedziela'}">
+                                        <tr class="d-flex">
+                                            <td class="col-2">${recipe1.mealName}</td>
+                                            <td class="col-7">${recipe1.recipeName}</td>
+                                            <td class="col-1 center">
+                                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                            </td>
+                                            <td class="col-2 center">
+                                                <a href="/app/recipe/details?id=${recipe1.recipeId}"
+                                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+                            <c:set var="day" value="" />
+                        </c:if>
+
                     </c:forEach>
 
-                    <table class="table">
-                        <thead>
-                        <tr class="d-flex">
-                            <th class="col-2">Poniedziałek</th>
-                            <th class="col-7"></th>
-                            <th class="col-1"></th>
-                            <th class="col-2"></th>
-                        </tr>
-                        </thead>
-                        <tbody class="text-color-lighter">
-                        <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                            <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            </td>
-                            <td class="col-2 center">
-                                <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                            <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            </td>
-                            <td class="col-2 center">
-                                <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-2">śniadanie</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                            <td class="col-1 center">
-                                <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                            </td>
-                            <td class="col-2 center">
-                                <a href="app-details-schedules.html" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+
 
                 </div>
             </div>

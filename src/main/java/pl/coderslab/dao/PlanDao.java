@@ -55,6 +55,7 @@ public class PlanDao {
             preparedStatement.setString(1,planName);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
+                    plan.setId(resultSet.getInt("id"));
                     plan.setName(resultSet.getString("name"));
                     plan.setDescription(resultSet.getString("description"));
                     plan.setCreated(resultSet.getString("created"));

@@ -7,7 +7,15 @@ public class RecipePlan {
     private int order;
     private DayName dayName;
     private Plan plan;
+    private String recipeName;
 
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
 
     public RecipePlan() {
     }

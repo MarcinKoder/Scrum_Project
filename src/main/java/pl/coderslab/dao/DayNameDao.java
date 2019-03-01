@@ -14,6 +14,23 @@ public class DayNameDao {
 
     private static final String FIND_ALL_DAYS_QUERY = "SELECT * FROM day_name";
     private static final String FIND_DAY_BY_ID_QUERY = "SELECT * from day_name where id = ?";
+    private static final String FIND_DAY_BY_NAME_QUERY = "SELECT * from day_name where name = ?";
+
+    public DayName readByName(String name) {
+        DayName dayName = new DayName();
+        try (Connection connection = DbUtil.getConnection(); PreparedStatement statement = connection.prepareStatement(FIND_DAY_BY_ID_QUERY)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                dayName.setId(resultSet.getInt("id"));
+                dayName.setName(resultSet.getString("name"));
+                dayName.setOrder(resultSet.getInt("order"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } return dayName;
+    }
+
 
     public DayName readById(int id) {
         DayName dayName = new DayName();

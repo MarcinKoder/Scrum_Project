@@ -19,7 +19,7 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
     private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
     private static final String LAST_PLAN = "SELECT name FROM plan WHERE admin_id = ? ORDER BY created desc LIMIT 1";
-    private static final String FIND_ALL_FROM_USER_QUERY = "SELECT * from plan where admin_id = ?";
+    private static final String FIND_ALL_FROM_USER_QUERY = "SELECT * from plan where admin_id = ? ORDER BY created desc";
     private static final String INSERT_RECIPE_INTO_PLAN_QUERY = "INSERT INTO recipe_plan (recipe_id,meal_name,`order`,day_name_id,plan_id) VALUES (?,?,?,?,?)";
 
     public static Plan create(Plan plan){

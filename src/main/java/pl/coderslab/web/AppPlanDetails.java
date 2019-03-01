@@ -25,11 +25,14 @@ public class AppPlanDetails extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String namePlan = request.getParameter("namePlan");
+        String id = request.getParameter("id");
         PlanDao planDao = new PlanDao();
-        Plan plan = planDao.read(namePlan);
+        Plan plan = planDao.read(id);
         RecipePlanDao recipePlanDao = new RecipePlanDao();
         RecipePlan recipePlan = recipePlanDao.read(plan.getId());
+
+
+
         List <Integer> recipeIds = recipePlanDao.readRecipeId(plan.getId());
         Map<Integer, String> recipes = new HashMap<>();
         RecipeDao recipeDao = new RecipeDao();
@@ -38,7 +41,7 @@ public class AppPlanDetails extends HttpServlet {
             recipes.put(recipeIds.get(i), recipeDao.read(recipeIds.get(i)).getName());
         }
 
-        request.setAttribute("namePlan", namePlan);
+        request.setAttribute("namePlan", plan.getName());
         request.setAttribute("planDescription", plan.getDescription());
         request.setAttribute("recipesName", recipes);
         request.setAttribute("recipePlan", recipePlan);

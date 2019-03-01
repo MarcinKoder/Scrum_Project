@@ -19,7 +19,7 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
     private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
     private static final String LAST_PLAN = "SELECT name FROM plan WHERE admin_id = ? ORDER BY created desc LIMIT 1";
-    private static final String FIND_ALL_FROM_USER_QUERY = "SELECT * from plan where admin_id = ?";
+    private static final String FIND_ALL_FROM_USER_QUERY = "SELECT * from plan where admin_id = ? ORDER BY created desc";
     private static final String INSERT_RECIPE_INTO_PLAN_QUERY = "INSERT INTO recipe_plan (recipe_id,meal_name,`order`,day_name_id,plan_id) VALUES (?,?,?,?,?)";
 
     public static Plan create(Plan plan){
@@ -48,14 +48,14 @@ public class PlanDao {
         return null;
     }
 
-    public Plan read(String planName){
+    public Plan read(String planId){
         Plan plan = new Plan();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAN);
-            preparedStatement.setString(1,planName);
+            preparedStatement.setString(1,planId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    plan.setId(resultSet.getInt("id"));
+                    plan.setId(resultSet.getInt(Integer.parseInt(planId)));
                     plan.setName(resultSet.getString("name"));
                     plan.setDescription(resultSet.getString("description"));
                     plan.setCreated(resultSet.getString("created"));

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Dashboard</title>
@@ -59,73 +60,44 @@
             </div>
             <div class="m-4 p-4 border-dashed">
                 <h2 class="dashboard-content-title">
-                    <span>Ostatnio dodany plan: <c:out
-                            value="${sessionScope.lastPlan}"/> <c:if test="${sessionScope.lastPlan}=='null'"> Brak planów </c:if></span>
+                    <span>Ostatnio dodany plan:</span> ${sessionScope.lastAddedPlanName}
                 </h2>
-                <table class="table">
-                    <thead>
-                    <tr class="d-flex">
-                        <th class="col-2">Poniedziałek</th>
-                        <th class="col-8"></th>
-                        <th class="col-2"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">kanapka z pastą rybną</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">obiad</td>
-                        <td class="col-8">zupa pomidorowa</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table">
-                    <thead>
-                    <tr class="d-flex">
-                        <th class="col-2">Wtorek</th>
-                        <th class="col-8"></th>
-                        <th class="col-2"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">drugie śniadanie</td>
-                        <td class="col-8">pączki</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">obiad</td>
-                        <td class="col-8">schabowy w panierce</td>
-                        <td class="col-2">
-                            <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <c:forEach var="plan" items="${sessionScope.recipePlans}" varStatus="loop">
+                    <table class="table">
+                        <c:choose>
+                            <c:when test="${loop.first}">
+                                <thead>
+                                <tr class="d-flex">
+                                    <th class="col-2">${fn:toUpperCase(fn:substring(plan.dayName.name, 0, 1))}${fn:toLowerCase(fn:substring(plan.dayName.name, 1,fn:length(plan.dayName.name)))}</th>
+                                    <th class="col-8"></th>
+                                    <th class="col-2"></th>
+                                </tr>
+                                </thead>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${sessionScope.recipePlans[loop.index-1].dayName.id != plan.dayName.id}">
+                                    <thead>
+                                    <tr class="d-flex">
+                                        <th class="col-2">${fn:toUpperCase(fn:substring(plan.dayName.name, 0, 1))}${fn:toLowerCase(fn:substring(plan.dayName.name, 1,fn:length(plan.dayName.name)))}</th>
+                                        <th class="col-8"></th>
+                                        <th class="col-2"></th>
+                                    </tr>
+                                    </thead>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                        <tbody>
+                        <tr class="d-flex">
+                            <td class="col-2">${plan.mealName}</td>
+                            <td class="col-8">${plan.recipe.name}</td>
+                            <td class="col-2">
+                                <a href="/recipe/details?id=${plan.recipe.id}"
+                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </c:forEach>
             </div>
         </div>
     </div>

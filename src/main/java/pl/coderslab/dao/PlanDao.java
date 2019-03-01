@@ -14,7 +14,7 @@ import java.util.List;
 public class PlanDao {
     private static final String CREATE_PLAN = "INSERT INTO plan(name, description, created, admin_id) VALUES(?,?,NOW(),?)";
     private static final String READ_PLAN = "SELECT * FROM plan WHERE id=?";
-    private static final String UPDATE_PLAN = "UPDATE plan SET name=?, description=? created=? WHERE id=?";
+    private static final String UPDATE_PLAN = "UPDATE plan SET name=?, description=? WHERE id=?";
     private static final String DELETE_PLAN = "DELETE FROM plan WHERE id=?";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan";
     private static final String HOW_MANY_PLANS = "SELECT COUNT(*) as plans FROM plan WHERE admin_id = ?";
@@ -48,11 +48,11 @@ public class PlanDao {
         return null;
     }
 
-    public Plan read(String planName){
+    public Plan read(String planId){
         Plan plan = new Plan();
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(READ_PLAN);
-            preparedStatement.setString(1,planName);
+            preparedStatement.setString(1,planId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     plan.setName(resultSet.getString("name"));
@@ -63,6 +63,7 @@ public class PlanDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        plan.setId(Integer.parseInt(planId));
         return plan;
     }
     public boolean update(Plan plan){
